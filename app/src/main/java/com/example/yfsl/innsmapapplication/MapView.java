@@ -20,6 +20,7 @@ import com.innsmap.InnsMap.map.sdk.domain.out.BitmapInformationFactory;
 import com.innsmap.InnsMap.map.sdk.domain.overlay.BitmapOverlayer;
 import com.innsmap.InnsMap.map.sdk.domain.overlay.Overlayer;
 import com.innsmap.InnsMap.map.sdk.domain.overlay.PointOverlayer;
+import com.innsmap.InnsMap.map.sdk.listeners.OnINNSMapClickListener;
 import com.innsmap.InnsMap.net.http.domain.net.NetBuildingDetailFloorBean;
 import com.innsmap.InnsMap.net.http.listener.forout.NetMapLoadListener;
 
@@ -206,12 +207,55 @@ public class MapView extends RelativeLayout {
                     drawMalfMapPoint(new PointF(innsMapLocation.getX(),innsMapLocation.getY()));//调用的画故障点方法 跟画终点的方法一样
                     //直接调用画起点终点那个方法 第二个参数传入true 使其不画起点  达到与上面方法一样的效果
 //                    drawOverlayer(new PointF(innsMapLocation.getX(),innsMapLocation.getY()),true);
+                    drawMapSuccessSetClickLitener();
+                }
+                int floorIndex = getFloorIndex(drawFloorId);
+                if (wheelViewLoaded && wheelView.getSeletedIndex() != floorIndex){
+                    wheelView.setDefault(floorIndex);
+                }
+                if (onLoadMapListener != null){
+                    onLoadMapListener.onSuccess(drawFloorId);
                 }
             }
 
             @Override
             public void onFail(String s) {
+                if (onLoadMapListener != null){
+                    onLoadMapListener.onFail(s);
+                }
+            }
+        });
+    }
 
+    /**
+     * 通过自动定位切换滑轮楼层
+     * @param floorId
+     * @return
+     */
+    private int getFloorIndex(String floorId) {
+        int index = 0;
+        if (floorBeans == null || floorBeans.isEmpty()){
+            return index;
+        }
+        for (int i = 0;i<floorBeans.size();i++){
+            NetBuildingDetailFloorBean data = floorBeans.get(i);
+            if (TextUtils.equals(floorId,data.getFloorId())){
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    private void drawMapSuccessSetClickLitener() {
+        //x,y的单位均为m，室内地图的实际坐标单位 而非view的像素
+        innsMapView.setOnINNSMapClickListener(new OnINNSMapClickListener() {
+            @Override
+            public void onMapClick(float v, float v1) {
+                if (onMapClickListener != null){
+                    onMapClickListener.onMapClick(v,v1,drawFloorId);
+                }
+                drawMalfMapPoint(new PointF(v,v1));
+//                drawOverlayer(new PointF(v,v1),false);
             }
         });
     }
