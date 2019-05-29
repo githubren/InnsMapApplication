@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">InnsMapApplication</string>
+    <string name="str_map_use_hint">地图需要在航站楼内使用</string>
+</resources>

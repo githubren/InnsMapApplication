@@ -1,0 +1,36 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="map_hint_container_style" parent="wrapHeight">
+        <item name="android:background">#66FF0000</item>
+    </style>
+
+    <style name="wrapHeight">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="map_hint_style" parent="wrapWidthH">
+        <item name="android:gravity">center</item>
+        <item name="android:drawablePadding">4dp</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:drawableLeft">@drawable/icon_map_hint</item>
+        <item name="android:drawableStart">@drawable/icon_map_hint</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:text">@string/str_map_use_hint</item>
+        <item name="android:textColor">@color/color_white</item>
+    </style>
+
+    <style name="wrapWidthH">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+</resources>
